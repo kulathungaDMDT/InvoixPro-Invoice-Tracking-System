@@ -1,5 +1,6 @@
 // Login.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 //import FormControl from "@mui/material/FormControl";
 import { 
   TextField, 
@@ -39,6 +40,11 @@ const Login = () => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+  const handleLoginNavigation = () => {
+    navigate('/signup');
+  };
+
 
   return (
     <div className='L-MainContainer'>
@@ -127,12 +133,9 @@ const Login = () => {
           </Button>
           </div>
           <div className="signup-link">
-          <p>Don't you have an Account? </p>
-   
-                                
-                                <a href="/">Forgot Password?</a>
-                                
-
+          <p>Don't you have an Account? <span onClick={handleLoginNavigation} style={{color: '#035723', cursor: 'pointer'}}>Sign Up</span></p>
+           <a href="/">Forgot Password?</a>
+                    
           </div>
         </form>
       </div>

@@ -1,5 +1,6 @@
 // SignUp.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 //import FormControl from "@mui/material/FormControl";
 import { 
   TextField, 
@@ -16,6 +17,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import './SignUp.css';
 
 const SignUp = () => {
+    const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
@@ -42,6 +44,10 @@ const SignUp = () => {
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleLoginNavigation = () => {
+    navigate('/login');
   };
 
   return (
@@ -180,7 +186,7 @@ const SignUp = () => {
           </Button>
           </div>
           <div className="login-link">
-            Already have an Account? <a href="/login">Login</a>
+          Already have an Account? <span onClick={handleLoginNavigation} style={{color: '#035723', cursor: 'pointer'}}>Login</span>
           </div>
         </form>
       </div>
