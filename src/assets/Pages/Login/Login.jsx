@@ -1,4 +1,4 @@
-// SignUp.jsx
+// Login.jsx
 import React, { useState } from 'react';
 //import FormControl from "@mui/material/FormControl";
 import { 
@@ -12,17 +12,13 @@ import {
   InputAdornment 
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import './Login.css';
 
-import './SignUp.css';
-
-const SignUp = () => {
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
-    email: '',
-    contactNo: '',
     password: '',
-    confirmPassword: '',
     role: ''
   });
 
@@ -45,18 +41,18 @@ const SignUp = () => {
   };
 
   return (
-    <div className='S-MainContainer'>
-        <div className='S-LeftContainer'>
-        <h2 className='mainSignTitle'>INVOIXPRO</h2>
-        <img src="https://logistifie.com/assets/static/img/invoice1.jpg" alt="System" className='SystemImage' />
+    <div className='L-MainContainer'>
+        <div className='L-LeftContainer'>
+        <h2 className='mainLoginTitle'>INVOIXPRO</h2>
+        <img src="https://logistifie.com/assets/static/img/invoice1.jpg" alt="System" className='LoginSystemImage' />
         </div>
-    <div className="S-RightContainer">
-      <div className="SignupForm">
-      <h2 class="Signup">SignUp</h2>
+    <div className="L-RightContainer">
+      <div className="LoginForm">
+      <h2 className="Login">Login</h2>
 
         <form onSubmit={handleSubmit} >
-         {/* <h2 className="signup-title">SignUp</h2> */}
-         <div className="SignupInnerContainer">
+
+         <div className="LoginInnerContainer">
           <TextField
             fullWidth
             label="Username"
@@ -66,33 +62,9 @@ const SignUp = () => {
             margin="normal"
             variant="outlined"
               size="small"
-            className="signup-input"
+            className="login-input"
           />
           
-          <TextField
-            fullWidth
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            margin="normal"
-            variant="outlined"
-              size="small"
-            className="signup-input"
-          />
-          
-          <TextField
-            fullWidth
-            label="Contact No"
-            name="contactNo"
-            value={formData.contactNo}
-            onChange={handleChange}
-            margin="normal"
-            variant="outlined"
-              size="small"
-            className="signup-input"
-          />
           
           <TextField
             fullWidth
@@ -104,7 +76,7 @@ const SignUp = () => {
             margin="normal"
             variant="outlined"
               size="small"
-            className="signup-input"
+            className="login-input"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -120,33 +92,8 @@ const SignUp = () => {
             }}
           />
           
-          <TextField
-            fullWidth
-            label="Confirm Password"
-            name="confirmPassword"
-            type={showPassword ? 'text' : 'password'}
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            margin="normal"
-            variant="outlined"
-              size="small"
-            className="signup-input"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
           
-          <FormControl fullWidth margin="normal" className="signup-input">
+          <FormControl fullWidth margin="normal" className="login-input">
             <InputLabel>Role</InputLabel>
             <Select
               name="role"
@@ -174,13 +121,18 @@ const SignUp = () => {
             variant="contained"
             color="primary"
             fullWidth
-            className="signup-button"
+            className="login-button"
           >
-            Sign Up
+            Log In
           </Button>
           </div>
-          <div className="login-link">
-            Already have an Account? <a href="/login">Login</a>
+          <div className="signup-link">
+          <p>Don't you have an Account? </p>
+   
+                                
+                                <a href="/">Forgot Password?</a>
+                                
+
           </div>
         </form>
       </div>
@@ -189,4 +141,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;
