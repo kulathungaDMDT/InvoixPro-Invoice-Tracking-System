@@ -15,7 +15,9 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#f4f6fb", pt: 10, pb: 12 }}>
+   <Box sx={{ flex: 1, bgcolor: "#f4f6fb", py: { xs: 6, md: 10 } }}>
+
+
       <Container maxWidth="lg">
         {/* Hero Section */}
         <Grid container spacing={6} alignItems="center" justifyContent="center">
@@ -35,7 +37,7 @@ const HomePage = () => {
               mb={4}
               sx={{ fontSize: { xs: "1rem", md: "1.25rem" } }}
             >
-              Smart Invoice Tracking System for SMEs – Stay on top of payments,
+              Stay on top of payments,
               streamline cash flow, and grow your business with ease.
             </Typography>
             <Button
@@ -136,4 +138,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
- 

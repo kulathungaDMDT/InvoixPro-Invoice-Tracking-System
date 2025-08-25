@@ -1,0 +1,146 @@
+import React from "react";
+import { Box, Container, Grid, Typography, Link, IconButton } from "@mui/material";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+
+const Footer = () => {
+  return (
+    <Box
+      component="footer"
+      sx={{
+        bgcolor: "#2e7d32", // dark professional blue
+        color: "white",
+        py: { xs: 4, md: 6 },
+        
+      }}
+    >
+      <Container maxWidth="lg">
+        <Grid container spacing={4} justifyContent="space-between">
+          {/* About Section */}
+          <Grid item xs={12} md={4}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              gutterBottom
+              textAlign={{ xs: "center", md: "left" }}
+            >
+              InvoixPro
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                maxWidth: 320,
+                mx: { xs: "auto", md: 0 },
+                textAlign: { xs: "center", md: "left" },
+              }}
+            >
+              InvoixPro helps businesses track invoices, manage payments,
+              and gain real-time financial insights to keep cash flow
+              running smoothly.
+            </Typography>
+          </Grid>
+
+          {/* Quick Links */}
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              gutterBottom
+              textAlign={{ xs: "center", sm: "left" }}
+            >
+              Quick Links
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+                alignItems: { xs: "center", sm: "flex-start" },
+              }}
+            >
+              <Link href="/" color="inherit" underline="hover">
+                Dashboard
+              </Link>
+              <Link href="/invoices" color="inherit" underline="hover">
+                Invoices
+              </Link>
+              <Link href="/reports" color="inherit" underline="hover">
+                Reports
+              </Link>
+              <Link href="/settings" color="inherit" underline="hover">
+                Settings
+              </Link>
+              <Link href="/support" color="inherit" underline="hover">
+                Support
+              </Link>
+            </Box>
+          </Grid>
+
+          {/* Contact / Social Media */}
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              gutterBottom
+              textAlign={{ xs: "center", sm: "left" }}
+            >
+              Connect With Us
+            </Typography>
+            <Box textAlign={{ xs: "center", sm: "left" }}>
+              <IconButton
+                aria-label="facebook"
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener"
+                sx={{ color: "white" }}
+              >
+                <FacebookIcon />
+              </IconButton>
+              <IconButton
+                aria-label="twitter"
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener"
+                sx={{ color: "white" }}
+              >
+                <TwitterIcon />
+              </IconButton>
+              <IconButton
+                aria-label="instagram"
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener"
+                sx={{ color: "white" }}
+              >
+                <InstagramIcon />
+              </IconButton>
+              <IconButton
+                aria-label="linkedin"
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener"
+                sx={{ color: "white" }}
+              >
+                <LinkedInIcon />
+              </IconButton>
+            </Box>
+          </Grid>
+        </Grid>
+
+        {/* Copyright */}
+        <Box
+          textAlign="center"
+          pt={4}
+          fontSize={14}
+          color="rgba(255,255,255,0.7)"
+        >
+          © {new Date().getFullYear()} InvoixPro. All rights reserved.
+        </Box>
+      </Container>
+    </Box>
+  );
+};
+
+export default Footer;
