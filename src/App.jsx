@@ -8,6 +8,8 @@ import SignupPage from "./assets/pages/SignupPage";
 import LoginPage from "./assets/pages/LoginPage";
 import UploadPage from "./assets/pages/UploadPage";
 import Statistics from "./assets/Pages/Statistics";
+import NotificationsPage from "./assets/pages/Notifications";
+import ProfilePage from "./assets/pages/ProfilePage";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
            <Route path="/login" element={<LoginPage />}/> 
            <Route path="/upload" element={<UploadPage />}/>
            <Route path='/statistics' element={<Statistics/>}/>
+           <Route path='/notifications' element={<NotificationsPage/>}/>
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/" element={<HomePage />} />
           </Routes>
         </main>
