@@ -6,7 +6,8 @@ import Footer from "./assets/components/Footer";
 import HomePage from "./assets/pages/HomePage";
 import SignupPage from "./assets/pages/SignupPage";
 import LoginPage from "./assets/pages/LoginPage";
-//import Statistics from "./assets/pages/Statistics";
+import UploadPage from "./assets/pages/UploadPage";
+import Statistics from "./assets/Pages/Statistics";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
           <Routes>
             <Route path='/signup' element={<SignupPage/>}/>
            <Route path="/login" element={<LoginPage />}/> 
+           <Route path="/upload" element={<UploadPage />}/>
+           <Route path='/statistics' element={<Statistics/>}/>
             <Route path="/" element={<HomePage />} />
           </Routes>
         </main>
