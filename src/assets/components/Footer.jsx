@@ -10,10 +10,10 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        bgcolor: "#2e7d32", // dark professional blue
+        bgcolor: "#3949ab",
         color: "white",
-        py: { xs: 4, md: 6 },
-        
+        py: { xs: 4, md: 6 }, // smaller padding on mobile
+        mt: 8,
       }}
     >
       <Container maxWidth="lg">
@@ -30,11 +30,7 @@ const Footer = () => {
             </Typography>
             <Typography
               variant="body2"
-              sx={{
-                maxWidth: 320,
-                mx: { xs: "auto", md: 0 },
-                textAlign: { xs: "center", md: "left" },
-              }}
+              sx={{ maxWidth: 320, mx: { xs: "auto", md: 0 }, textAlign: { xs: "center", md: "left" } }}
             >
               InvoixPro helps businesses track invoices, manage payments,
               and gain real-time financial insights to keep cash flow
@@ -43,7 +39,7 @@ const Footer = () => {
           </Grid>
 
           {/* Quick Links */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={2}>
             <Typography
               variant="h6"
               fontWeight="bold"
@@ -61,24 +57,24 @@ const Footer = () => {
               }}
             >
               <Link href="/" color="inherit" underline="hover">
-                Dashboard
+                Home
               </Link>
-              <Link href="/invoices" color="inherit" underline="hover">
-                Invoices
+              <Link href="/receipts" color="inherit" underline="hover">
+                Receipts
               </Link>
-              <Link href="/reports" color="inherit" underline="hover">
-                Reports
+              <Link href="/bills" color="inherit" underline="hover">
+                Bills
               </Link>
-              <Link href="/settings" color="inherit" underline="hover">
-                Settings
+              <Link href="/warranty" color="inherit" underline="hover">
+                Warranty
               </Link>
-              <Link href="/support" color="inherit" underline="hover">
-                Support
+              <Link href="/contact" color="inherit" underline="hover">
+                Contact Us
               </Link>
             </Box>
           </Grid>
 
-          {/* Contact / Social Media */}
+          {/* Social Media */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography
               variant="h6"
@@ -86,7 +82,7 @@ const Footer = () => {
               gutterBottom
               textAlign={{ xs: "center", sm: "left" }}
             >
-              Connect With Us
+              Follow Us
             </Typography>
             <Box textAlign={{ xs: "center", sm: "left" }}>
               <IconButton
@@ -129,14 +125,15 @@ const Footer = () => {
           </Grid>
         </Grid>
 
-        {/* Copyright */}
+        {/* Bottom Copyright */}
         <Box
           textAlign="center"
           pt={4}
           fontSize={14}
           color="rgba(255,255,255,0.7)"
         >
-          © {new Date().getFullYear()} InvoixPro. All rights reserved.
+          © {new Date().getFullYear()} InvoixPro. All rights
+          reserved.
         </Box>
       </Container>
     </Box>

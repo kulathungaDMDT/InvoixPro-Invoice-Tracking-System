@@ -24,11 +24,9 @@ const Navbar = () => {
 
   const pages = [
     { label: "Home", path: "/" },
-    { label: "Invoices", path: "/invoices" },
+    { label: "My Documents", path: "/documents" },
     { label: "Upload", path: "/upload" },
-    { label: "Reports", path: "/reports" },
-     { label: "Statistics", path: "/statistics" }
-
+    { label: "Statistics", path: "/statistics" },
   ];
 
   const unreadNotifications = 5;
@@ -46,11 +44,10 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="sticky" sx={{ bgcolor: "#2e7d32" }} elevation={4}>
+    <AppBar position="sticky" color="inherit" elevation={4}>
       <Toolbar sx={{ maxWidth: 1200, mx: "auto", width: "100%", px: { xs: 2, md: 0 } }}>
         {/* LEFT: Hamburger + Logo */}
         <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-          {/* Mobile menu */}
           <IconButton
             size="large"
             edge="start"
@@ -81,20 +78,19 @@ const Navbar = () => {
             ))}
           </Menu>
 
-          {/* Brand Name */}
           <Typography
             variant="h6"
             component={Link}
             to="/"
             sx={{
               textDecoration: "none",
-              color: "white",
+              color: "primary.main",
               fontWeight: "bold",
               userSelect: "none",
               fontSize: { xs: 18, md: 22 },
             }}
           >
-            📑 InvoixPro
+            📦 InvoixPro
           </Typography>
 
           {/* Desktop links */}
@@ -104,12 +100,12 @@ const Navbar = () => {
                 key={page.label}
                 component={Link}
                 to={page.path}
+                color="inherit"
                 sx={{
-                  color: "white",
                   textTransform: "none",
                   fontWeight: 500,
                   fontSize: 15,
-                  "&:hover": { color: "#c8e6c9", backgroundColor: "transparent" },
+                  "&:hover": { color: "primary.main", backgroundColor: "transparent" },
                 }}
               >
                 {page.label}
@@ -121,7 +117,7 @@ const Navbar = () => {
         {/* RIGHT: Notifications + Profile */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Tooltip title="Notifications">
-            <IconButton component={Link} to="/notifications" sx={{ color: "white" }}>
+            <IconButton component={Link} to="/notifications" color="inherit">
               <Badge badgeContent={unreadNotifications} color="error">
                 <NotificationsIcon />
               </Badge>
