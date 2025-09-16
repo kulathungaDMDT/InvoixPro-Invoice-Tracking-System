@@ -17,6 +17,7 @@ import AuthSocialButtons from './components/AuthSocialButtons';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import EditInvoice from './pages/EditInvoice';
+import MyInvoices from './pages/MyInvoices';
 const App = () => {
   return (
     <Router>
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/documents/:id" element={<DocumentDetailsPage />} />
         <Route path="/documents" element={<MyDocuments />} />
         <Route path="/edit-invoice" element={<EditInvoice />} />
+        <Route path="/my-invoices" element={<MyInvoices />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
       <Footer />
