@@ -1,95 +1,132 @@
-// src/assets/pages/LoginPage.jsx
-import React from "react";
-import { Box, Typography, Button, TextField, Divider, Stack } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Divider,
+  Paper,
+  Link,
+  Stack,
+} from "@mui/material";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import AppleIcon from "@mui/icons-material/Apple";
+import AuthSocialButtons from "../components/AuthSocialButtons"; // Make sure this exists
+//import { auth, provider, signInWithPopup } from "../firebase";
+//import { auth, provider, signInWithPopup } from "../firebase";
+import { auth, provider, signInWithPopup } from "../../config/firebase";
+
+//import { auth } from "../../firebase";
+
+
 
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  // Google login handler
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
+
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/google-login",
+        { idToken }
+      );
+
+      localStorage.setItem("token", res.data.token);
+      alert("Google login successful 🎉");
+      navigate("/upload");
+    } catch (err) {
+      console.error("Google login failed:", err);
+      alert("Google login failed ❌");
+    }
+  };
+
+  // Email/password login handler
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", res.data.token);
+      alert("Login successful! 🎉");
+      navigate("/upload");
+    } catch (err) {
+      console.error("Login failed:", err);
+      alert(err.response?.data?.message || "Login failed ❌");
+    }
+  };
 
   return (
     <Box
-      sx={{
-        minHeight: "calc(100vh - 64px - 100px)", // Adjust for Navbar + Footer
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        bgcolor: "#f4f6fb",
-        px: 2,
-      }}
+      minHeight="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      bgcolor="#f0f2f5"
+      p={2}
     >
-      <Box
+      <Paper
+        elevation={6}
         sx={{
-          maxWidth: 450,
-          width: "100%",
-          bgcolor: "white",
-          p: { xs: 3, md: 5 },
+          p: { xs: 3, sm: 5 },
+          width: { xs: "90%", sm: 400 },
+          mx: "auto",
           borderRadius: 3,
-          boxShadow: 3,
-          textAlign: "center",
         }}
       >
-        <Typography variant="h4" color="#2e7d32" fontWeight={700} gutterBottom>
-          Login to InvoixPro
+        <Typography variant="h5" fontWeight="bold" mb={2} textAlign="center">
+          Login to Your Account
         </Typography>
 
-        {/* Social Login */}
+        {/* Social login buttons */}
         <Stack spacing={2} mb={3}>
-          <Button
-            variant="outlined"
-            startIcon={<GoogleIcon />}
-            sx={{ textTransform: "none" }}
-          >
-            Continue with Google
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<FacebookIcon />}
-            sx={{ textTransform: "none" }}
-          >
-            Continue with Facebook
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<AppleIcon />}
-            sx={{ textTransform: "none" }}
-          >
-            Continue with Apple
-          </Button>
+          <AuthSocialButtons onGoogleClick={handleGoogleLogin} />
         </Stack>
 
-        <Divider sx={{ my: 3 }}>OR</Divider>
+        <Divider sx={{ my: 3 }}>or</Divider>
 
-        {/* Email & Password */}
-        <Stack spacing={2}>
-          <TextField label="Email" variant="outlined" fullWidth />
-          <TextField label="Password" type="password" variant="outlined" fullWidth />
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#2e7d32",
-              "&:hover": { backgroundColor: "#256428" },
-              textTransform: "none",
-            }}
-            onClick={() => navigate("/")}
-          >
-            Login
-          </Button>
-        </Stack>
+        {/* Email / Password */}
+        <TextField
+          label="Email"
+          fullWidth
+          margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-        <Typography variant="body2" mt={2} sx={{ color: "black" }}>
-          Don't have an account?{" "}
-          <Button
-            variant="text"
-            sx={{ textTransform: "none", color: "#2e7d32" }}
-            onClick={() => navigate("/signup")}
-          >
-            Sign Up
-          </Button>
-        </Typography>
-      </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 2 }}
+          onClick={handleLogin}
+        >
+          Login
+        </Button>
+
+        <Box mt={2} textAlign="center">
+          <Typography variant="body2">
+            Don't have an account?{" "}
+            <Link href="/signup" underline="hover">
+              Sign Up
+            </Link>
+          </Typography>
+        </Box>
+      </Paper>
     </Box>
   );
 };

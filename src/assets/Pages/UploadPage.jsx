@@ -10,29 +10,29 @@ import {
   TextField,
   MenuItem,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const categories = [
-  "Warranty",
-  "Receipt",
-  "Bill",
-  "Insurance",
-  "Bank Statement",
-  "Tax Document",
-  "Other",
-];
+
+const statuses = ["Draft", "Sent", "Paid", "Cancelled"];
 
 const UploadPage = () => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [category, setCategory] = useState("");
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [description, setDescription] = useState("");
-  const [storeName, setStoreName] = useState("");
-  const [warrantyPeriod, setWarrantyPeriod] = useState("");
+  const navigate = useNavigate();
+
+  // Invoice fields
+  const [clientName, setClientName] = useState("");
+  const [invoiceNumber, setInvoiceNumber] = useState("");
+  const [issueDate, setIssueDate] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [status, setStatus] = useState("Draft");
+  const [totalAmount, setTotalAmount] = useState("");
+  const [amountPaid, setAmountPaid] = useState("");
+  const [amountRemaining, setAmountRemaining] = useState("");
+  const [installments, setInstallments] = useState("");
+  const [notes, setNotes] = useState("");
 
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
@@ -41,20 +41,25 @@ const UploadPage = () => {
   };
 
   const handleUpload = async () => {
-    if (!file) return alert("Please select a file first! 📁");
-    if (!category) return alert("Please select a category! 📂");
-    if (!title.trim()) return alert("Please enter a document title! 📝");
-    if (!date) return alert("Please select the document date! 📅");
+    if (!file) return alert("Please select an invoice file first! 📁");
+    if (!clientName.trim()) return alert("Please enter the client name! 👤");
+    if (!invoiceNumber.trim()) return alert("Please enter the invoice number! #️⃣");
+    if (!issueDate) return alert("Please select the issue date! 📅");
+    if (!dueDate) return alert("Please select the due date! ⏳");
+    if (!totalAmount) return alert("Please enter the total amount! 💵");
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("itemName", title);
-    formData.append("storeName", storeName || "N/A");
-    formData.append("purchaseDate", date);
-    formData.append("warrantyPeriod", warrantyPeriod || 0);
-    formData.append("expiryDate", expiryDate || date);
-    formData.append("documentType", category);
-    formData.append("description", description);
+    formData.append("clientName", clientName);
+    formData.append("invoiceNumber", invoiceNumber);
+    formData.append("issueDate", issueDate);
+    formData.append("dueDate", dueDate);
+    formData.append("status", status);
+    formData.append("totalAmount", totalAmount);
+    formData.append("amountPaid", amountPaid || 0);
+    formData.append("amountRemaining", amountRemaining || 0);
+    formData.append("installments", installments || 0);
+    formData.append("notes", notes);
 
     try {
       setUploading(true);
@@ -64,7 +69,7 @@ const UploadPage = () => {
       if (!token) return alert("Not authenticated! Please log in again.");
 
       const response = await axios.post(
-        "http://localhost:5000/api/documents/upload",
+        "http://localhost:5000/api/invoices/upload",
         formData,
         {
           headers: {
@@ -81,22 +86,29 @@ const UploadPage = () => {
       );
 
       if (response.status === 201) {
-        alert("Upload Successful! 🎉");
+        alert("Invoice Upload Successful! 🎉");
         setFile(null);
-        setCategory("");
-        setTitle("");
-        setDate("");
-        setExpiryDate("");
-        setDescription("");
-        setStoreName("");
-        setWarrantyPeriod("");
+        setClientName("");
+        setInvoiceNumber("");
+        setIssueDate("");
+        setDueDate("");
+        setStatus("Draft");
+        setTotalAmount("");
+        setAmountPaid("");
+        setAmountRemaining("");
+        setInstallments("");
+        setNotes("");
       }
     } catch (error) {
-      console.error("Upload failed:", error);
-      alert("Upload failed. ❌");
+      console.error("Invoice upload failed:", error);
+      alert("Invoice upload failed. ❌");
     } finally {
       setUploading(false);
     }
+  };
+
+  const handleEdit = () => {
+    navigate("/edit-invoice"); // Navigate to Edit Invoice page
   };
 
   return (
@@ -114,28 +126,57 @@ const UploadPage = () => {
           }}
         >
           <Typography variant="h4" fontWeight={700} color="#3949ab" mb={3}>
-            Upload Your Document 📤
+            Upload Invoice 📤
           </Typography>
+
+          {/* Invoice Form Fields */}
+          <TextField
+            fullWidth
+            label="Client Name 👤"
+            variant="outlined"
+            value={clientName}
+            onChange={(e) => setClientName(e.target.value)}
+            sx={{ mb: 3 }}
+          />
 
           <TextField
             fullWidth
-            label="Document Title 📝"
+            label="Invoice Number #️⃣"
             variant="outlined"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={invoiceNumber}
+            onChange={(e) => setInvoiceNumber(e.target.value)}
+            sx={{ mb: 3 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Issue Date 📅"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            value={issueDate}
+            onChange={(e) => setIssueDate(e.target.value)}
+            sx={{ mb: 3 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Due Date ⏳"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
             sx={{ mb: 3 }}
           />
 
           <TextField
             select
             fullWidth
-            label="Select Category 📂"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            helperText="Please select the document category"
+            label="Invoice Status 📌"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
             sx={{ mb: 3 }}
           >
-            {categories.map((option) => (
+            {statuses.map((option) => (
               <MenuItem key={option} value={option}>
                 {option}
               </MenuItem>
@@ -144,52 +185,52 @@ const UploadPage = () => {
 
           <TextField
             fullWidth
-            label="Document Date 📅"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+            label="Total Amount 💵"
+            type="number"
+            value={totalAmount}
+            onChange={(e) => setTotalAmount(e.target.value)}
             sx={{ mb: 3 }}
           />
 
           <TextField
             fullWidth
-            label="Expiry Date (Optional) 📆"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            value={expiryDate}
-            onChange={(e) => setExpiryDate(e.target.value)}
+            label="Amount Paid 💰"
+            type="number"
+            value={amountPaid}
+            onChange={(e) => setAmountPaid(e.target.value)}
             sx={{ mb: 3 }}
           />
 
           <TextField
             fullWidth
-            label="Description 🧾"
+            label="Amount Remaining 💵"
+            type="number"
+            value={amountRemaining}
+            onChange={(e) => setAmountRemaining(e.target.value)}
+            sx={{ mb: 3 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Number of Installments 📑"
+            type="number"
+            value={installments}
+            onChange={(e) => setInstallments(e.target.value)}
+            sx={{ mb: 3 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Notes 🧾 (Optional)"
             multiline
             minRows={2}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Add any relevant notes or info about the document"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Add any additional notes about this invoice"
             sx={{ mb: 3 }}
           />
 
-          <TextField
-            fullWidth
-            label="Store Name 🏪 (Optional)"
-            value={storeName}
-            onChange={(e) => setStoreName(e.target.value)}
-            sx={{ mb: 3 }}
-          />
-
-          <TextField
-            fullWidth
-            label="Warranty Period (Months) ⏳ (Optional)"
-            type="number"
-            value={warrantyPeriod}
-            onChange={(e) => setWarrantyPeriod(e.target.value)}
-            sx={{ mb: 3 }}
-          />
-
+          {/* File Upload */}
           <Button
             variant="outlined"
             component="label"
@@ -203,7 +244,7 @@ const UploadPage = () => {
               "&:hover": { borderColor: "#283593", backgroundColor: "#e8eaf6" },
             }}
           >
-            Choose File
+            Choose Invoice File
             <Input type="file" onChange={handleFileChange} sx={{ display: "none" }} />
           </Button>
 
@@ -211,15 +252,27 @@ const UploadPage = () => {
             {file ? file.name : "No file chosen yet..."}
           </Typography>
 
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!file || uploading}
-            onClick={handleUpload}
-            sx={{ px: 6, py: 1.8, fontWeight: 700 }}
-          >
-            {uploading ? "Uploading..." : "Upload"}
-          </Button>
+          {/* Action Buttons */}
+          <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={!file || uploading}
+              onClick={handleUpload}
+              sx={{ px: 6, py: 1.8, fontWeight: 700 }}
+            >
+              {uploading ? "Uploading..." : "Upload Invoice"}
+            </Button>
+
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleEdit}
+              sx={{ px: 6, py: 1.8, fontWeight: 700 }}
+            >
+              Edit Invoice ✏️
+            </Button>
+          </Box>
 
           {uploading && (
             <Box sx={{ width: "100%", mt: 4 }}>

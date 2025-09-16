@@ -1,36 +1,47 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
-import Navbar from "./assets/components/Navbar";
-import Footer from "./assets/components/Footer";
-import HomePage from "./assets/pages/HomePage";
-import SignupPage from "./assets/pages/SignupPage";
-import LoginPage from "./assets/pages/LoginPage";
-import UploadPage from "./assets/pages/UploadPage";
-import Statistics from "./assets/Pages/Statistics";
-import NotificationsPage from "./assets/pages/Notifications";
-import ProfilePage from "./assets/pages/ProfilePage";
-
-function App() {
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import ProfilePage from './pages/ProfilePage';
+import EditProfile from './pages/EditProfile';
+import UploadPage from './pages/UploadPage';
+import DocumentDetailsPage from './pages/DocumentDetailsPage';
+import MyDocuments from './pages/MyDocuments';
+import HomePage from './pages/HomePage';
+import NotificationsPage from './pages/Notifications';
+import Statistics from './pages/Statistics';
+import ReceiptsPage from './pages/ReceiptsPage';
+import BillsPage from './pages/Bills';
+import WarrantyPage from './pages/WarrantyPage';
+import AuthSocialButtons from './components/AuthSocialButtons';
+import SignupPage from './pages/SignupPage';
+import LoginPage from './pages/LoginPage';
+import EditInvoice from './pages/EditInvoice';
+const App = () => {
   return (
     <Router>
-      <div className="app-container">
-        <Navbar />
-        <main className="main-content">
-          <Routes>
-            <Route path='/signup' element={<SignupPage/>}/>
-           <Route path="/login" element={<LoginPage />}/> 
-           <Route path="/upload" element={<UploadPage />}/>
-           <Route path='/statistics' element={<Statistics/>}/>
-           <Route path='/notifications' element={<NotificationsPage/>}/>
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/" element={<HomePage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <Navbar />
+      <Routes>
+        <Route path='/login' element={<LoginPage/>}/>
+        <Route path='/signup' element={<SignupPage/>}/>
+        <Route path='/authbuttons' element={<AuthSocialButtons/>}/>
+        <Route path='/warranty' element={<WarrantyPage/>}/>
+        <Route path='/bills' element={<BillsPage/>}/>
+        <Route path='/receipts' element={<ReceiptsPage/>}/>
+        <Route path='/statistics' element={<Statistics/>}/>
+        <Route path='/notifications' element={<NotificationsPage/>}/>
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path='/editprofile'element={<EditProfile/>}/>
+        <Route path="/upload" element={<UploadPage />} />
+        <Route path="/documents/:id" element={<DocumentDetailsPage />} />
+        <Route path="/documents" element={<MyDocuments />} />
+        <Route path="/edit-invoice" element={<EditInvoice />} />
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+      <Footer />
     </Router>
   );
-}
+};
 
 export default App;
+

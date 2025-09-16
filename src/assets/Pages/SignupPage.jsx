@@ -1,97 +1,140 @@
-// src/assets/pages/SignupPage.jsx
-import React from "react";
-import { Box, Typography, Button, TextField, Divider, Stack } from "@mui/material";
+// frontend/pages/SignupPage.jsx
+import React, { useState } from "react";
+import {
+  Box, 
+  Button,
+  TextField,
+  Typography,
+  Divider,
+  Paper,
+  Link,
+} from "@mui/material";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import AppleIcon from "@mui/icons-material/Apple";
+import AuthSocialButtons from "../components/AuthSocialButtons";
+//import { auth, provider, signInWithPopup } from "../firebase";
+//import { auth, provider, signInWithPopup } from "../firebase";
+import { auth, provider, signInWithPopup } from "../../config/firebase";
+
+
+
 
 const SignupPage = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  // Google signup
+  const handleGoogleSignup = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
+
+      const res = await axios.post("http://localhost:5000/api/auth/google-login", {
+        idToken,
+      });
+
+      localStorage.setItem("token", res.data.token);
+      alert("Google signup successful 🎉");
+      navigate("/upload");
+    } catch (err) {
+      console.error("Google signup error:", err);
+      alert("Google signup failed ❌");
+    }
+  };
+
+  // Manual signup
+  const handleSignup = async () => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/signup", {
+        name,
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", res.data.token);
+      alert("Registration successful! 🎉");
+      navigate("/upload");
+    } catch (err) {
+      console.error("Registration failed:", err);
+      alert(err.response?.data?.message || "Registration failed ❌");
+    }
+  };
 
   return (
     <Box
-      sx={{
-        minHeight: "calc(100vh - 64px - 100px)", // Adjust for Navbar + Footer
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        bgcolor: "#f4f6fb",
-        px: 2,
-      }}
+      minHeight="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      bgcolor="#f0f2f5"
+      p={{ xs: 2, sm: 0 }}
     >
-      <Box
+      <Paper
+        elevation={6}
         sx={{
-          maxWidth: 450,
+          p: { xs: 3, sm: 5 },
           width: "100%",
-          bgcolor: "white",
-          p: { xs: 3, md: 5 },
+          maxWidth: 400,
           borderRadius: 3,
-          boxShadow: 3,
-          textAlign: "center",
         }}
       >
-        <Typography variant="h4" color="#2e7d32" fontWeight={700} gutterBottom>
-          Sign Up to InvoixPro
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          mb={2}
+          textAlign="center"
+        >
+          Create an Account
         </Typography>
 
-        {/* Social Signup */}
-        <Stack spacing={2} mb={3}>
-          <Button
-            variant="outlined"
-            startIcon={<GoogleIcon />}
-            sx={{ textTransform: "none" }}
-          >
-            Continue with Google
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<FacebookIcon />}
-            sx={{ textTransform: "none" }}
-          >
-            Continue with Facebook
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<AppleIcon />}
-            sx={{ textTransform: "none" }}
-          >
-            Continue with Apple
-          </Button>
-        </Stack>
+        <AuthSocialButtons onGoogleClick={handleGoogleSignup} />
 
-        <Divider sx={{ my: 3 }}>OR</Divider>
+        <Divider sx={{ my: 3 }}>or</Divider>
 
-        {/* Username, Email & Password */}
-        <Stack spacing={2}>
-          <TextField label="Username" variant="outlined" fullWidth />
-          <TextField label="Email" variant="outlined" fullWidth />
-          <TextField label="Password" type="password" variant="outlined" fullWidth />
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#2e7d32",
-              "&:hover": { backgroundColor: "#256428" },
-              textTransform: "none",
-            }}
-            onClick={() => navigate("/")}
-          >
-            Sign Up
-          </Button>
-        </Stack>
+        <TextField
+          label="Full Name"
+          fullWidth
+          margin="normal"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          label="Email"
+          fullWidth
+          margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-        <Typography variant="body2" mt={2} sx={{ color: "black" }}>
-  Already have an account?{" "}
-  <Button
-    variant="text"
-    sx={{ textTransform: "none", color: "#2e7d32" }}
-    onClick={() => navigate("/login")}
-  >
-    Login
-  </Button>
-</Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 2, py: 1.8, textTransform: "none" }}
+          onClick={handleSignup}
+        >
+          Sign Up
+        </Button>
 
-      </Box>
+        <Box mt={2} textAlign="center">
+          <Typography variant="body2">
+            Already have an account?{" "}
+            <Link href="/login" underline="hover">
+              Login
+            </Link>
+          </Typography>
+        </Box>
+      </Paper>
     </Box>
   );
 };

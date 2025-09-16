@@ -1,11 +1,10 @@
-// HomePage.jsx
 import React from "react";
 import { Box, Typography, Button, Grid, Paper, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-// Features for InvoixPro
 const features = [
-  { emoji: "📑", title: "Track Invoices", desc: "Manage and monitor all invoices in one place with ease." },
+  { emoji: "📤", title: "Upload Receipts", desc: "Easily upload your invoices, receipts." },
+    { emoji: "📑", title: "Track Invoices", desc: "Manage and monitor all invoices in one place with ease." },
   { emoji: "⏰", title: "Automated Reminders", desc: "Never miss a due date with smart payment notifications." },
   { emoji: "📊", title: "Real-time Insights", desc: "Get detailed analytics and reports on your business cash flow." },
   { emoji: "☁️", title: "Secure Cloud Storage", desc: "Access invoices safely from anywhere, anytime." },
@@ -13,23 +12,20 @@ const features = [
 
 const HomePage = () => {
   const navigate = useNavigate();
-
   return (
-   <Box sx={{ flex: 1, bgcolor: "#f4f6fb", py: { xs: 6, md: 10 } }}>
-
-
+    <Box sx={{ minHeight: "100vh", bgcolor: "#f5f7fa", pt: 10, pb: 12 }}>
       <Container maxWidth="lg">
         {/* Hero Section */}
         <Grid container spacing={6} alignItems="center" justifyContent="center">
-          <Grid item xs={12} md={8} textAlign="center">
+          <Grid item xs={12} md={6} textAlign="center">
             <Typography
               variant="h3"
               fontWeight={700}
-              color="#2e7d32"
+              color="#3949ab"
               gutterBottom
-              sx={{ fontSize: { xs: "2rem", md: "3rem" } }}
+              sx={{ fontSize: { xs: "2rem", md: "3rem" } }} // responsive font
             >
-              InvoixPro 📊
+              InvoixPro📲
             </Typography>
             <Typography
               variant="h6"
@@ -44,14 +40,11 @@ const HomePage = () => {
               variant="contained"
               size="large"
               sx={{
-                backgroundColor: "#2e7d32",
+                backgroundColor: "#3949ab",
                 px: { xs: 4, md: 6 },
                 py: { xs: 1.5, md: 1.8 },
                 fontWeight: 600,
                 fontSize: { xs: "0.9rem", md: "1rem" },
-                "&:hover": {
-                  backgroundColor: "#256428",
-                },
               }}
               onClick={() => navigate("/signup")}
             >
@@ -65,12 +58,12 @@ const HomePage = () => {
           <Typography
             variant="h4"
             fontWeight={700}
-            color="#2e7d32"
+            color="#3949ab"
             textAlign="center"
             gutterBottom
             sx={{ fontSize: { xs: "1.8rem", md: "2.2rem" } }}
           >
-            Why Choose InvoixPro? 🚀
+            What You Can Do ✨
           </Typography>
 
           <Grid container spacing={5} justifyContent="center" mt={4}>
@@ -86,25 +79,26 @@ const HomePage = () => {
                 <Paper
                   elevation={6}
                   sx={{
-                    width: { xs: "100%", sm: 250, md: 230 },
-                    minHeight: { xs: 180, md: 220 },
+                    width: { xs: "100%", sm: 250, md: 220 }, // responsive width
+                    minHeight: { xs: 180, md: 220 }, // flexible height
                     borderRadius: 4,
                     bgcolor: "white",
                     textAlign: "center",
                     px: { xs: 2, md: 3 },
                     py: { xs: 3, md: 4 },
+                    cursor: "default",
                     transition: "transform 0.3s ease, box-shadow 0.3s ease",
                     "&:hover": {
                       transform: "translateY(-12px)",
                       boxShadow:
-                        "0 10px 30px rgba(46, 125, 50, 0.3), 0 6px 20px rgba(46, 125, 50, 0.15)",
+                        "0 10px 30px rgba(57, 73, 171, 0.3), 0 6px 20px rgba(57, 73, 171, 0.15)",
                     },
                   }}
                 >
                   <Typography
                     variant="h1"
                     sx={{
-                      fontSize: { xs: 40, md: 55 },
+                      fontSize: { xs: 40, md: 60 },
                       mb: 2,
                       userSelect: "none",
                     }}
@@ -114,7 +108,7 @@ const HomePage = () => {
                   <Typography
                     variant="h6"
                     fontWeight={700}
-                    color="#2e7d32"
+                    color="#3949ab"
                     gutterBottom
                     sx={{ fontSize: { xs: "1rem", md: "1.1rem" } }}
                   >
